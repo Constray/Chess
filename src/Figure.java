@@ -25,6 +25,7 @@ public abstract class Figure {
     public Figure(Color NewColor, ArrayList<Figure> FigList , Pair P){
         FigColor = NewColor;
         MoveList = new ArrayList<>();
+        Position = P;
         FigList.add(this);
     }
 

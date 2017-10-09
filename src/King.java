@@ -27,85 +27,85 @@ public class King extends Figure {
     }
 
     private void CheckSurrBlack(Board CurrBoard){
-        Board.Square CurSqare = CurrBoard.getSquare(this.Position.getX() - 1 , this.Position.getY() + 1);
-        if(this.Position.OnBoard(-1, 1) && CurrBoard.SquareCanMove(this.FigColor,CurSqare) && !CurSqare.CoveredByWhite) {
+        Board.Square CurSquare = CurrBoard.getSquare(this.Position.getX() - 1 , this.Position.getY() + 1);
+        if(CurSquare != null && CurrBoard.SquareCanMove(this.FigColor,CurSquare) && !CurSquare.CoveredByWhite) {
             MoveList.add(new Pair(this.Position, -1, 1));
             CurrBoard.CoverSquare(this.FigColor, this.Position.getX() -1, this.Position.getY()+1);
         }
-        CurSqare = CurrBoard.getSquare(this.Position.getX(), this.Position.getY() + 1);
-        if(this.Position.OnBoard(0, 1) && CurrBoard.SquareCanMove(this.FigColor,CurSqare) && !CurSqare.CoveredByWhite) {
+        CurSquare = CurrBoard.getSquare(this.Position.getX(), this.Position.getY() + 1);
+        if(CurSquare != null && CurrBoard.SquareCanMove(this.FigColor,CurSquare) && !CurSquare.CoveredByWhite) {
             MoveList.add(new Pair(this.Position, 0, 1));
             CurrBoard.CoverSquare(this.FigColor, this.Position.getX(), this.Position.getY()+1);
         }
-        CurSqare = CurrBoard.getSquare(this.Position.getX() +1, this.Position.getY() + 1);
-        if(this.Position.OnBoard(1, 1) && CurrBoard.SquareCanMove(this.FigColor,CurSqare) && !CurSqare.CoveredByWhite) {
+        CurSquare = CurrBoard.getSquare(this.Position.getX() +1, this.Position.getY() + 1);
+        if(CurSquare != null && CurrBoard.SquareCanMove(this.FigColor,CurSquare) && !CurSquare.CoveredByWhite) {
             MoveList.add(new Pair(this.Position, 1, 1));
             CurrBoard.CoverSquare(this.FigColor, this.Position.getX() + 1, this.Position.getY()+1);
         }
-        CurSqare = CurrBoard.getSquare(this.Position.getX() - 1, this.Position.getY());
-        if(this.Position.OnBoard(-1, 0) && CurrBoard.SquareCanMove(this.FigColor,CurSqare) && !CurSqare.CoveredByWhite) {
+        CurSquare = CurrBoard.getSquare(this.Position.getX() - 1, this.Position.getY());
+        if(CurSquare != null && CurrBoard.SquareCanMove(this.FigColor,CurSquare) && !CurSquare.CoveredByWhite) {
             MoveList.add(new Pair(this.Position, -1, 0));
             CurrBoard.CoverSquare(this.FigColor, this.Position.getX() -1, this.Position.getY());
         }
-        CurSqare = CurrBoard.getSquare(this.Position.getX() + 1, this.Position.getY());
-        if(this.Position.OnBoard(1, 0) && CurrBoard.SquareCanMove(this.FigColor,CurSqare) && !CurSqare.CoveredByWhite) {
+        CurSquare = CurrBoard.getSquare(this.Position.getX() + 1, this.Position.getY());
+        if(CurSquare != null && CurrBoard.SquareCanMove(this.FigColor,CurSquare) && !CurSquare.CoveredByWhite) {
             MoveList.add(new Pair(this.Position, +1, 0));
             CurrBoard.CoverSquare(this.FigColor, this.Position.getX() +1, this.Position.getY());
         }
-        CurSqare = CurrBoard.getSquare(this.Position.getX() - 1, this.Position.getY() - 1);
-        if(this.Position.OnBoard(-1, -1) && CurrBoard.SquareCanMove(this.FigColor,CurSqare) && !CurSqare.CoveredByWhite) {
+        CurSquare = CurrBoard.getSquare(this.Position.getX() - 1, this.Position.getY() - 1);
+        if(CurSquare != null && CurrBoard.SquareCanMove(this.FigColor,CurSquare) && !CurSquare.CoveredByWhite) {
             MoveList.add(new Pair(this.Position, -1, -1));
             CurrBoard.CoverSquare(this.FigColor, this.Position.getX() -1, this.Position.getY()-1);
         }
-        CurSqare = CurrBoard.getSquare(this.Position.getX(), this.Position.getY() -1);
-        if(this.Position.OnBoard(0, -1) && CurrBoard.SquareCanMove(this.FigColor,CurSqare) && !CurSqare.CoveredByWhite) {
+        CurSquare = CurrBoard.getSquare(this.Position.getX(), this.Position.getY() -1);
+        if(CurSquare != null && CurrBoard.SquareCanMove(this.FigColor,CurSquare) && !CurSquare.CoveredByWhite) {
             MoveList.add(new Pair(this.Position, 0, -1));
             CurrBoard.CoverSquare(this.FigColor, this.Position.getX() , this.Position.getY()-1);
         }
-        CurSqare = CurrBoard.getSquare(this.Position.getX() +1, this.Position.getY()-1);
-        if(this.Position.OnBoard(1, -1) && CurrBoard.SquareCanMove(this.FigColor,CurSqare) && !CurSqare.CoveredByWhite){
+        CurSquare = CurrBoard.getSquare(this.Position.getX() +1, this.Position.getY()-1);
+        if(CurSquare != null && CurrBoard.SquareCanMove(this.FigColor,CurSquare) && !CurSquare.CoveredByWhite){
             MoveList.add(new Pair(this.Position, 1, -1));
             CurrBoard.CoverSquare(this.FigColor, this.Position.getX() + 1, this.Position.getY() - 1);
         }
     }
     private void CheckSurrWhite(Board CurrBoard){
-        Board.Square CurSqare = CurrBoard.getSquare(this.Position.getX() - 1 , this.Position.getY() + 1);
-        if(this.Position.OnBoard(-1, 1) && CurrBoard.SquareCanMove(this.FigColor,CurSqare) && !CurSqare.CoveredByBlack) {
+        Board.Square CurSquare = CurrBoard.getSquare(this.Position.getX() - 1 , this.Position.getY() + 1);
+        if(CurSquare != null && CurrBoard.SquareCanMove(this.FigColor,CurSquare) && !CurSquare.CoveredByBlack) {
             MoveList.add(new Pair(this.Position, -1, 1));
             CurrBoard.CoverSquare(this.FigColor, this.Position.getX() -1, this.Position.getY()+1);
         }
-        CurSqare = CurrBoard.getSquare(this.Position.getX(), this.Position.getY() + 1);
-        if(this.Position.OnBoard(0, 1) && CurrBoard.SquareCanMove(this.FigColor,CurSqare) && !CurSqare.CoveredByBlack) {
+        CurSquare = CurrBoard.getSquare(this.Position.getX(), this.Position.getY() + 1);
+        if(CurSquare != null && CurrBoard.SquareCanMove(this.FigColor,CurSquare) && !CurSquare.CoveredByBlack) {
             MoveList.add(new Pair(this.Position, 0, 1));
             CurrBoard.CoverSquare(this.FigColor, this.Position.getX(), this.Position.getY()+1);
         }
-        CurSqare = CurrBoard.getSquare(this.Position.getX() +1, this.Position.getY() + 1);
-        if(this.Position.OnBoard(1, 1) && CurrBoard.SquareCanMove(this.FigColor,CurSqare) && !CurSqare.CoveredByBlack) {
+        CurSquare = CurrBoard.getSquare(this.Position.getX() +1, this.Position.getY() + 1);
+        if(CurSquare != null && CurrBoard.SquareCanMove(this.FigColor,CurSquare) && !CurSquare.CoveredByBlack) {
             MoveList.add(new Pair(this.Position, 1, 1));
             CurrBoard.CoverSquare(this.FigColor, this.Position.getX() + 1, this.Position.getY()+1);
         }
-        CurSqare = CurrBoard.getSquare(this.Position.getX() - 1, this.Position.getY());
-        if(this.Position.OnBoard(-1, 0) && CurrBoard.SquareCanMove(this.FigColor,CurSqare) && !CurSqare.CoveredByBlack) {
+        CurSquare = CurrBoard.getSquare(this.Position.getX() - 1, this.Position.getY());
+        if(CurSquare != null && CurrBoard.SquareCanMove(this.FigColor,CurSquare) && !CurSquare.CoveredByBlack) {
             MoveList.add(new Pair(this.Position, -1, 0));
             CurrBoard.CoverSquare(this.FigColor, this.Position.getX() -1, this.Position.getY());
         }
-        CurSqare = CurrBoard.getSquare(this.Position.getX() + 1, this.Position.getY());
-        if(this.Position.OnBoard(1, 0) && CurrBoard.SquareCanMove(this.FigColor,CurSqare) && !CurSqare.CoveredByBlack) {
+        CurSquare = CurrBoard.getSquare(this.Position.getX() + 1, this.Position.getY());
+        if(CurSquare != null && CurrBoard.SquareCanMove(this.FigColor,CurSquare) && !CurSquare.CoveredByBlack) {
             MoveList.add(new Pair(this.Position, +1, 0));
             CurrBoard.CoverSquare(this.FigColor, this.Position.getX() +1, this.Position.getY());
         }
-        CurSqare = CurrBoard.getSquare(this.Position.getX() - 1, this.Position.getY() - 1);
-        if(this.Position.OnBoard(-1, -1) && CurrBoard.SquareCanMove(this.FigColor,CurSqare) && !CurSqare.CoveredByBlack) {
+        CurSquare = CurrBoard.getSquare(this.Position.getX() - 1, this.Position.getY() - 1);
+        if(CurSquare != null && CurrBoard.SquareCanMove(this.FigColor,CurSquare) && !CurSquare.CoveredByBlack) {
             MoveList.add(new Pair(this.Position, -1, -1));
             CurrBoard.CoverSquare(this.FigColor, this.Position.getX() -1, this.Position.getY()-1);
         }
-        CurSqare = CurrBoard.getSquare(this.Position.getX(), this.Position.getY() -1);
-        if(this.Position.OnBoard(0, -1) && CurrBoard.SquareCanMove(this.FigColor,CurSqare) && !CurSqare.CoveredByBlack) {
+        CurSquare = CurrBoard.getSquare(this.Position.getX(), this.Position.getY() -1);
+        if(CurSquare != null && CurrBoard.SquareCanMove(this.FigColor,CurSquare) && !CurSquare.CoveredByBlack) {
             MoveList.add(new Pair(this.Position, 0, -1));
             CurrBoard.CoverSquare(this.FigColor, this.Position.getX() , this.Position.getY()-1);
         }
-        CurSqare = CurrBoard.getSquare(this.Position.getX() +1, this.Position.getY()-1);
-        if(this.Position.OnBoard(1, -1) && CurrBoard.SquareCanMove(this.FigColor,CurSqare) && !CurSqare.CoveredByBlack){
+        CurSquare = CurrBoard.getSquare(this.Position.getX() +1, this.Position.getY()-1);
+        if(CurSquare != null && CurrBoard.SquareCanMove(this.FigColor,CurSquare) && !CurSquare.CoveredByBlack){
             MoveList.add(new Pair(this.Position, 1, -1));
             CurrBoard.CoverSquare(this.FigColor, this.Position.getX() + 1, this.Position.getY() - 1);
         }
