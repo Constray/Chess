@@ -125,53 +125,5 @@ class Bishop extends Figure{
             } else
                 break;
         }
-        //Right
-        for(int i = this.Position.getX() + 1; i < 8 ; i++){
-            if(CurrBoard.getSquare(i, this.Position.getY()).currFig == null)
-                CurrBoard.CoverSquare(this.FigColor, i, this.Position.getY());
-            else if(CurrBoard.getSquare(i, this.Position.getY()).currFig.FigColor != this.FigColor){
-                CurrBoard.CoverSquare(this.FigColor, i, this.Position.getY());
-                if(CurrBoard.getSquare(i, this.Position.getY()).currFig.getType() != Type.KING)
-                    break;
-            }
-            else
-                break;
-        }
-        //Left
-        for(int i = this.Position.getX() - 1; i >= 0 ; i--){
-            if(CurrBoard.getSquare(i, this.Position.getY()).currFig == null)
-                CurrBoard.CoverSquare(this.FigColor, i, this.Position.getY());
-            else if(CurrBoard.getSquare(i, this.Position.getY()).currFig.FigColor != this.FigColor){
-                CurrBoard.CoverSquare(this.FigColor, i, this.Position.getY());
-                if(CurrBoard.getSquare(i, this.Position.getY()).currFig.getType() != Type.KING)
-                    break;
-            }
-            else
-                break;
-        }
-        //Up
-        for(int i = this.Position.getY() + 1; i < 8 ; i++){
-            if(CurrBoard.getSquare(this.Position.getX(), i).currFig == null)
-                CurrBoard.CoverSquare(this.FigColor, this.Position.getX(), i);
-            else if(CurrBoard.getSquare(this.Position.getX(), i).currFig.FigColor != this.FigColor){
-                CurrBoard.CoverSquare(this.FigColor, this.Position.getX(), i);
-                if(CurrBoard.getSquare(this.Position.getX(), i).currFig.getType() != Type.KING)
-                    break;
-            }
-            else
-                break;
-        }
-        //Down
-        for(int i = this.Position.getY() - 1; i >= 0; i--){
-            if(CurrBoard.getSquare(this.Position.getX(), i).currFig == null)
-                CurrBoard.CoverSquare(this.FigColor, this.Position.getX(), i);
-            else if(CurrBoard.getSquare(this.Position.getX(), i).currFig.FigColor != this.FigColor){
-                CurrBoard.CoverSquare(this.FigColor, this.Position.getX(), i);
-                if(CurrBoard.getSquare(this.Position.getX(), i).currFig.getType() != Type.KING)
-                    break;
-            }
-            else
-                break;
-        }
     }
 }

@@ -16,10 +16,8 @@ class Queen extends Figure {
         CoverSquares(CurrBoard);
         //Up-Right
         for (int i = this.Position.getX() + 1, j = this.Position.getY() + 1; Pair.OnBoard(i, j, false); i++, j++) {
-            if (CurrBoard.getSquare(i, j).currFig == null) {
+            if (CurrBoard.getSquare(i, j).currFig == null)
                 MoveList.add(new Pair(i, j));
-                CurrBoard.CoverSquare(this.FigColor, i, j);
-            }
             else if (CurrBoard.getSquare(i, j).currFig.FigColor != this.FigColor) {
                 MoveList.add(new Pair(i, j));
                 CurrBoard.CoverSquare(this.FigColor, i, j);
@@ -29,10 +27,8 @@ class Queen extends Figure {
         }
         //Up-Left
         for (int i = this.Position.getX() - 1, j = this.Position.getY() + 1; Pair.OnBoard(i, j, false); i--, j++) {
-            if (CurrBoard.getSquare(i, j).currFig == null) {
+            if (CurrBoard.getSquare(i, j).currFig == null)
                 MoveList.add(new Pair(i, j));
-                CurrBoard.CoverSquare(this.FigColor, i, j);
-            }
             else if (CurrBoard.getSquare(i, j).currFig.FigColor != this.FigColor) {
                 MoveList.add(new Pair(i, j));
                 CurrBoard.CoverSquare(this.FigColor, i, j);
@@ -42,10 +38,8 @@ class Queen extends Figure {
         }
         //Down-Right
         for (int i = this.Position.getX() + 1, j = this.Position.getY() - 1; Pair.OnBoard(i, j, false); i++, j--) {
-            if (CurrBoard.getSquare(i, j).currFig == null) {
+            if (CurrBoard.getSquare(i, j).currFig == null)
                 MoveList.add(new Pair(i, j));
-                CurrBoard.CoverSquare(this.FigColor, i, j);
-            }
             else if (CurrBoard.getSquare(i, j).currFig.FigColor != this.FigColor) {
                 MoveList.add(new Pair(i, j));
                 CurrBoard.CoverSquare(this.FigColor, i, j);
@@ -55,10 +49,8 @@ class Queen extends Figure {
         }
         //Down-Left
         for (int i = this.Position.getX() - 1, j = this.Position.getY() - 1; Pair.OnBoard(i, j, false); i--, j--) {
-            if (CurrBoard.getSquare(i, j).currFig == null) {
+            if (CurrBoard.getSquare(i, j).currFig == null)
                 MoveList.add(new Pair(i, j));
-                CurrBoard.CoverSquare(this.FigColor, i, j);
-            }
             else if (CurrBoard.getSquare(i, j).currFig.FigColor != this.FigColor) {
                 MoveList.add(new Pair(i, j));
                 CurrBoard.CoverSquare(this.FigColor, i, j);
@@ -68,10 +60,8 @@ class Queen extends Figure {
         }
         //Right
         for(int i = this.Position.getX() + 1; i < 8 ; i++){
-            if(CurrBoard.getSquare(i, this.Position.getY()).currFig == null) {
+            if(CurrBoard.getSquare(i, this.Position.getY()).currFig == null)
                 MoveList.add(new Pair(i, this.Position.getY()));
-                CurrBoard.CoverSquare(this.FigColor, i, this.Position.getY());
-            }
             else if(CurrBoard.getSquare(i, this.Position.getY()).currFig.FigColor != this.FigColor){
                 MoveList.add(new Pair(i, this.Position.getY()));
                 CurrBoard.CoverSquare(this.FigColor, i, this.Position.getY());
@@ -82,10 +72,8 @@ class Queen extends Figure {
         }
         //Left
         for(int i = this.Position.getX() - 1; i >= 0 ; i--){
-            if(CurrBoard.getSquare(i, this.Position.getY()).currFig == null) {
+            if(CurrBoard.getSquare(i, this.Position.getY()).currFig == null)
                 MoveList.add(new Pair(i, this.Position.getY()));
-                CurrBoard.CoverSquare(this.FigColor, i, this.Position.getY());
-            }
             else if(CurrBoard.getSquare(i, this.Position.getY()).currFig.FigColor != this.FigColor){
                 MoveList.add(new Pair(i, this.Position.getY()));
                 CurrBoard.CoverSquare(this.FigColor, i, this.Position.getY());
@@ -96,10 +84,8 @@ class Queen extends Figure {
         }
         //Up
         for(int i = this.Position.getY() + 1; i < 8 ; i++){
-            if(CurrBoard.getSquare(this.Position.getX(), i).currFig == null) {
+            if(CurrBoard.getSquare(this.Position.getX(), i).currFig == null)
                 MoveList.add(new Pair(this.Position.getX(), i));
-                CurrBoard.CoverSquare(this.FigColor, this.Position.getX(), i);
-            }
             else if(CurrBoard.getSquare(this.Position.getX(), i).currFig.FigColor != this.FigColor){
                 MoveList.add(new Pair(this.Position.getX(), i));
                 CurrBoard.CoverSquare(this.FigColor, this.Position.getX(), i);
@@ -110,10 +96,8 @@ class Queen extends Figure {
         }
         //Down
         for(int i = this.Position.getY() - 1; i >= 0; i--){
-            if(CurrBoard.getSquare(this.Position.getX(), i).currFig == null) {
+            if(CurrBoard.getSquare(this.Position.getX(), i).currFig == null)
                 MoveList.add(new Pair(this.Position.getX(), i));
-                CurrBoard.CoverSquare(this.FigColor, this.Position.getX(), i);
-            }
             else if(CurrBoard.getSquare(this.Position.getX(), i).currFig.FigColor != this.FigColor){
                 MoveList.add(new Pair(this.Position.getX(), i));
                 CurrBoard.CoverSquare(this.FigColor, this.Position.getX(), i);
@@ -207,6 +191,54 @@ class Queen extends Figure {
                 if (CurrBoard.getSquare(i, j).currFig.getType() != Type.KING)
                     break;
             } else
+                break;
+        }
+        //Right
+        for(int i = this.Position.getX() + 1; i < 8 ; i++){
+            if(CurrBoard.getSquare(i, this.Position.getY()).currFig == null)
+                CurrBoard.CoverSquare(this.FigColor, i, this.Position.getY());
+            else if(CurrBoard.getSquare(i, this.Position.getY()).currFig.FigColor != this.FigColor){
+                CurrBoard.CoverSquare(this.FigColor, i, this.Position.getY());
+                if(CurrBoard.getSquare(i, this.Position.getY()).currFig.getType() != Type.KING)
+                    break;
+            }
+            else
+                break;
+        }
+        //Left
+        for(int i = this.Position.getX() - 1; i >= 0 ; i--){
+            if(CurrBoard.getSquare(i, this.Position.getY()).currFig == null)
+                CurrBoard.CoverSquare(this.FigColor, i, this.Position.getY());
+            else if(CurrBoard.getSquare(i, this.Position.getY()).currFig.FigColor != this.FigColor){
+                CurrBoard.CoverSquare(this.FigColor, i, this.Position.getY());
+                if(CurrBoard.getSquare(i, this.Position.getY()).currFig.getType() != Type.KING)
+                    break;
+            }
+            else
+                break;
+        }
+        //Up
+        for(int i = this.Position.getY() + 1; i < 8 ; i++){
+            if(CurrBoard.getSquare(this.Position.getX(), i).currFig == null)
+                CurrBoard.CoverSquare(this.FigColor, this.Position.getX(), i);
+            else if(CurrBoard.getSquare(this.Position.getX(), i).currFig.FigColor != this.FigColor){
+                CurrBoard.CoverSquare(this.FigColor, this.Position.getX(), i);
+                if(CurrBoard.getSquare(this.Position.getX(), i).currFig.getType() != Type.KING)
+                    break;
+            }
+            else
+                break;
+        }
+        //Down
+        for(int i = this.Position.getY() - 1; i >= 0; i--){
+            if(CurrBoard.getSquare(this.Position.getX(), i).currFig == null)
+                CurrBoard.CoverSquare(this.FigColor, this.Position.getX(), i);
+            else if(CurrBoard.getSquare(this.Position.getX(), i).currFig.FigColor != this.FigColor){
+                CurrBoard.CoverSquare(this.FigColor, this.Position.getX(), i);
+                if(CurrBoard.getSquare(this.Position.getX(), i).currFig.getType() != Type.KING)
+                    break;
+            }
+            else
                 break;
         }
     }
