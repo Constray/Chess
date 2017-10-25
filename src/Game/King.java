@@ -1,9 +1,11 @@
+package Game;
+
 import java.util.ArrayList;
 
-public class King extends Figure {
-    public  boolean Castling;
+class King extends Figure {
+    private boolean Castling;
 
-    public King(Color NewColor, ArrayList<Figure> FigList, Pair P){
+    King(Color NewColor, ArrayList<Figure> FigList, Pair P){
         super(NewColor, FigList, P);
         Castling = true;
     }
@@ -27,7 +29,7 @@ public class King extends Figure {
     }
 
     private void CheckSurrBlack(Board CurrBoard){
-        Board.Square CurSquare = CurrBoard.getSquare(this.Position.getX() - 1 , this.Position.getY() + 1);
+        Square CurSquare = CurrBoard.getSquare(this.Position.getX() - 1 , this.Position.getY() + 1);
         if(CurSquare != null && CurrBoard.SquareCanMove(this.FigColor,CurSquare) && !CurSquare.CoveredByWhite) {
             MoveList.add(new Pair(this.Position, -1, 1));
             CurrBoard.CoverSquare(this.FigColor, this.Position.getX() -1, this.Position.getY()+1);
@@ -69,7 +71,7 @@ public class King extends Figure {
         }
     }
     private void CheckSurrWhite(Board CurrBoard){
-        Board.Square CurSquare = CurrBoard.getSquare(this.Position.getX() - 1 , this.Position.getY() + 1);
+        Square CurSquare = CurrBoard.getSquare(this.Position.getX() - 1 , this.Position.getY() + 1);
         if(CurSquare != null && CurrBoard.SquareCanMove(this.FigColor,CurSquare) && !CurSquare.CoveredByBlack) {
             MoveList.add(new Pair(this.Position, -1, 1));
             CurrBoard.CoverSquare(this.FigColor, this.Position.getX() -1, this.Position.getY()+1);
@@ -112,7 +114,7 @@ public class King extends Figure {
     }
     private void CheckCastlingBlack(Board CurrBoard){
         if(Castling && !CurrBoard.getSquare(this.Position.getX(), this.Position.getY()).CoveredByWhite){
-            Board.Square CurSquare = CurrBoard.getSquare(0, 7);
+            Square CurSquare = CurrBoard.getSquare(0, 7);
             if(CurSquare.currFig.getType() == Type.ROOK && ((Rook)CurSquare.currFig).Castling ){
                 CurSquare = CurrBoard.getSquare(1, 7);
                 if(CurSquare.currFig == null) {
@@ -137,7 +139,7 @@ public class King extends Figure {
     }
     private void CheckCastlingWhite(Board CurrBoard){
         if(Castling && !CurrBoard.getSquare(this.Position.getX(), this.Position.getY()).CoveredByBlack){
-            Board.Square CurSquare = CurrBoard.getSquare(0, 0);
+            Square CurSquare = CurrBoard.getSquare(0, 0);
             if(CurSquare.currFig.getType() == Type.ROOK && ((Rook)CurSquare.currFig).Castling ){
                 CurSquare = CurrBoard.getSquare(1, 0);
                 if(CurSquare.currFig == null) {
@@ -159,5 +161,16 @@ public class King extends Figure {
                 }
             }
         }
+    }
+
+    //Такой ситуации, что король атакует короля в принципе не может произойти
+    @Override
+    ArrayList<Pair> SaveKingList(Board CurrBoard, Pair KingPos) {
+        return null;
+    }
+
+    //Заглушка для наследования
+    @Override
+    void CoverSquares(Board CurrBoard) {
     }
 }

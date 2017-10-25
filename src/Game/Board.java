@@ -1,22 +1,23 @@
-import java.io.Console;
+package Game;
+
 import java.util.ArrayList;
 
-public class Board {
-    public class Square {
-        public Figure currFig;
-        public boolean CoveredByWhite;
-        public boolean CoveredByBlack;
+class Square {
+    Figure currFig;
+    boolean CoveredByWhite;
+    boolean CoveredByBlack;
 
-        public  Square(){
-            currFig = null;
-            CoveredByBlack = false;
-            CoveredByWhite = false;
-        }
+    Square(){
+        currFig = null;
+        CoveredByBlack = false;
+        CoveredByWhite = false;
     }
+}
 
+public class Board {
     private Square[][] BoardSquares = new Square[8][8];
 
-    public Square getSquare(int x, int y){
+    Square getSquare(int x, int y){
         try {
             return BoardSquares[x][y];
         }
@@ -25,15 +26,16 @@ public class Board {
         }
     }
 
-    public  boolean SquareCanMove(Color Cl, int x, int y){
+    boolean SquareCanMove(Color Cl, int x, int y){
         return (BoardSquares[x][y].currFig == null) || !(BoardSquares[x][y].currFig.getFigColor() == Cl);
     }
 
-    public  boolean SquareCanMove(Color Cl, Square q){
+    boolean SquareCanMove(Color Cl, Square q){
         return (q.currFig == null) || !(q.currFig.getFigColor() == Cl);
     }
 
-    public void CoverSquare(Color Cl, int x, int y){
+    //Меняет состояние квадрата, если его покрывает черная или белая фигура
+    void CoverSquare(Color Cl, int x, int y){
         switch (Cl){
             case WHITE:
                 if(!BoardSquares[x][y].CoveredByWhite)
@@ -48,6 +50,8 @@ public class Board {
 
     private ArrayList<Figure> WhiteFigList = new ArrayList<>();
     private ArrayList<Figure> BlackFigList = new ArrayList<>();
+    //Список возможных действий, если король находиться под шахом
+    private ArrayList<Pair> SaveMoveList = new ArrayList<>();
 
     private Color Turn;
 
@@ -66,6 +70,7 @@ public class Board {
         return  Turn;
     }
 
+    //Конструктор инициализирует игру
     public Board(){
         Turn = Color.WHITE;
         for(int i = 0; i < 8; i++)
@@ -117,6 +122,15 @@ public class Board {
                 }
                 break;
         }
+    }
+
+    //Очищает покрытие клеток фигурами
+    private void ClearCover(){
+        for (int i = 0; i < 8; i++)
+            for(int j =0; j < 8; j++){
+                BoardSquares[i][j].CoveredByBlack = false;
+                BoardSquares[i][j].CoveredByWhite = false;
+            }
     }
 
     public static void main(String[] args) {

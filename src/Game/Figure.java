@@ -1,3 +1,5 @@
+package Game;
+
 import  java.util.ArrayList;
 
 enum Color{
@@ -14,29 +16,27 @@ public abstract class Figure {
 
     protected Pair Position;
 
-    public  void setPosition(Pair nPos){
-        Position = nPos;
-    }
-
     public Figure(Color NewColor){
         FigColor = NewColor;
         MoveList = new ArrayList<>();
     }
-    public Figure(Color NewColor, ArrayList<Figure> FigList , Pair P){
+    Figure(Color NewColor, ArrayList<Figure> FigList , Pair P){
         FigColor = NewColor;
         MoveList = new ArrayList<>();
         Position = P;
         FigList.add(this);
     }
 
-    public Color getFigColor(){
+    Color getFigColor(){
         return FigColor;
     }
 
+    //Cоздаёт список клеток, которые может занять фигура противоположенного цвета, чтобы спасти своего короля
+    abstract ArrayList<Pair>  SaveKingList(Board CurrBoard, Pair KingPos);
 
-
-    public abstract Type getType();
-    public abstract void CreateMoveList(Board CurBoard);
+    abstract Type getType();
+    abstract void CreateMoveList(Board CurrBoard);
+    abstract void CoverSquares(Board CurrBoard);
 
     public ArrayList<Pair> getMoveList(){
         return  MoveList;
