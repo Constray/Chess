@@ -3,13 +3,19 @@ package Game;
 import java.util.ArrayList;
 
 class Queen extends Figure {
-    Queen(Color NewColor, ArrayList<Figure> FigList, Pair P){
-        super(NewColor, FigList, P);
+    Queen(Color newColor, ArrayList<Figure> figList, Pair p) {
+        super(newColor, figList, p);
     }
+
+    Queen(Color newColor, Pair p) {
+        super(newColor, p);
+    }
+
     @Override
     Type getType(){
         return Type.QUEEN;
     }
+
     @Override
     void CreateMoveList(Board CurrBoard) {
         MoveList.clear();

@@ -3,7 +3,7 @@ package Game;
 import java.util.ArrayList;
 
 class King extends Figure {
-    private boolean Castling;
+    boolean Castling;
 
     King(Color NewColor, ArrayList<Figure> FigList, Pair P){
         super(NewColor, FigList, P);

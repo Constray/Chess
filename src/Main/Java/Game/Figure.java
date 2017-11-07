@@ -2,13 +2,6 @@ package Game;
 
 import  java.util.ArrayList;
 
-enum Color{
-    BLACK, WHITE;
-}
-enum Type{
-    KING, QUEEN, ROOK, BISHOP, KNIGHT, PAWN;
-}
-
 public abstract class Figure {
     protected Color FigColor;
 
@@ -16,9 +9,10 @@ public abstract class Figure {
 
     protected Pair Position;
 
-    public Figure(Color NewColor){
+    Figure(Color NewColor, Pair p){
         FigColor = NewColor;
         MoveList = new ArrayList<>();
+        Position = p;
     }
     Figure(Color NewColor, ArrayList<Figure> FigList , Pair P){
         FigColor = NewColor;
@@ -31,6 +25,10 @@ public abstract class Figure {
         return FigColor;
     }
 
+    public void setPosition(Pair position) {
+        Position = position;
+    }
+
     //Cоздаёт список клеток, которые может занять фигура противоположенного цвета, чтобы спасти своего короля
     abstract ArrayList<Pair>  SaveKingList(Board CurrBoard, Pair KingPos);
 
@@ -41,4 +39,11 @@ public abstract class Figure {
     public ArrayList<Pair> getMoveList(){
         return  MoveList;
     }
+}
+
+enum Color{
+    BLACK, WHITE;
+}
+enum Type{
+    KING, QUEEN, ROOK, BISHOP, KNIGHT, PAWN;
 }
