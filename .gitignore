@@ -2,6 +2,8 @@
 out
 *.iml
 *.class
+*.svg
+*.png
 workspace.xml
 
 # Mobile Tools for Java (J2ME)
