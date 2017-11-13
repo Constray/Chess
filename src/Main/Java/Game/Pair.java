@@ -1,18 +1,50 @@
-package Game;
+package game;
 
-public class Pair{
+public class Pair {
 
-    private int x;
-    private int y;
-
-    public Pair(int nx, int ny) {
-        this.x = nx;
-        this.y = ny;
+    public void setX(int x) {
+        if (x < 0) {
+            this.x = 0;
+        } else if (x > 7) {
+            this.x = 7;
+        } else
+            this.x = x;
     }
 
-    public  Pair(Pair old, int px, int py){
-        this.x = old.x + px;
-        this.y = old.y + py;
+    private int x;
+
+    public void setY(int y) {
+        if (y < 0) {
+            this.y = 0;
+        } else if (y > 7) {
+            this.y = 7;
+        } else
+            this.y = y;
+    }
+
+    public void setPair(Pair pair) {
+        this.setX(pair.getX());
+        this.setY(pair.getY());
+    }
+
+    private int y;
+
+    public Pair(int x, int y) {
+        this.setX(x);;
+        this.setY(y);
+    }
+
+    public  Pair(Pair old, int px, int py) {
+        this.setX(x = old.x + px);
+        this.setY(y = old.y + py);
+    }
+
+    @Override
+    public String toString() {
+        char[] ch = new char[2];
+        ch[0] = (char)('a' + this.getX());
+        ch[1] = (char)(this.getY() + 1 + '0');
+        return new String(ch);
     }
 
     public boolean OnBoard(){

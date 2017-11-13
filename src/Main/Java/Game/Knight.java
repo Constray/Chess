@@ -1,9 +1,9 @@
-package Game;
+package game;
 
 import java.util.ArrayList;
 
 class Knight extends Figure{
-    Knight(Color NewColor, ArrayList<Figure> FigList, Pair P){
+    Knight(FigColor NewColor, ArrayList<Figure> FigList, Pair P){
         super(NewColor, FigList, P);
     }
     @Override
@@ -11,51 +11,63 @@ class Knight extends Figure{
         return Type.KNIGHT;
     }
     @Override
-    void CreateMoveList(Board CurrBoard){
-        MoveList.clear();
-        if(this.Position.OnBoard(1, 2) && CurrBoard.SquareCanMove(this.FigColor,this.Position.getX()+1, this.Position.getY()+2)) {
-            MoveList.add(new Pair(this.Position, 1, 2));
-            CurrBoard.CoverSquare(this.FigColor, this.Position.getX() + 1, this.Position.getY() + 2);
+    void createMoveList(Board currBoard) {
+        moveList.clear();
+        if (!super.canMoveRightDownDiagonal(currBoard) || !super.canMoveHorizontally(currBoard)
+                                                       || !super.canMoveVertically(currBoard) || !super.canMoveLeftDownDiagonal(currBoard)) {
+            currBoard.coverSquare(this.figColor, this.position.getX() + 1, this.position.getY() + 2);
+            currBoard.coverSquare(this.figColor, this.position.getX() - 1, this.position.getY() + 2);
+            currBoard.coverSquare(this.figColor, this.position.getX() - 2, this.position.getY() + 1);
+            currBoard.coverSquare(this.figColor, this.position.getX() - 2, this.position.getY() + 1);
+            currBoard.coverSquare(this.figColor, this.position.getX() + 1, this.position.getY() - 2);
+            currBoard.coverSquare(this.figColor, this.position.getX() - 1, this.position.getY() - 2);
+            currBoard.coverSquare(this.figColor, this.position.getX() + 2, this.position.getY() - 1);
+            currBoard.coverSquare(this.figColor, this.position.getX() - 2, this.position.getY() - 1);
+            return;
         }
-        if(this.Position.OnBoard(-1, 2) && CurrBoard.SquareCanMove(this.FigColor,this.Position.getX()-1, this.Position.getY()+2)){
-            MoveList.add(new Pair(this.Position, -1, 2));
-            CurrBoard.CoverSquare(this.FigColor, this.Position.getX() - 1, this.Position.getY() + 2);
+        if (this.position.OnBoard(1, 2) && currBoard.squareCanMove(this.figColor,this.position.getX()+1, this.position.getY()+2)) {
+            moveList.add(new Pair(this.position, 1, 2));
+            currBoard.coverSquare(this.figColor, this.position.getX() + 1, this.position.getY() + 2);
         }
-        if(this.Position.OnBoard(2, 1) && CurrBoard.SquareCanMove(this.FigColor,this.Position.getX()+2, this.Position.getY()+1)){
-            MoveList.add(new Pair(this.Position, 2, 1));
-            CurrBoard.CoverSquare(this.FigColor, this.Position.getX() + 2, this.Position.getY() + 1);
+        if (this.position.OnBoard(-1, 2) && currBoard.squareCanMove(this.figColor,this.position.getX()-1, this.position.getY()+2)) {
+            moveList.add(new Pair(this.position, -1, 2));
+            currBoard.coverSquare(this.figColor, this.position.getX() - 1, this.position.getY() + 2);
         }
-        if(this.Position.OnBoard(-2, 1) && CurrBoard.SquareCanMove(this.FigColor,this.Position.getX()-2, this.Position.getY()+1)){
-            MoveList.add(new Pair(this.Position, 1, 2));
-            CurrBoard.CoverSquare(this.FigColor, this.Position.getX() + 1, this.Position.getY() + 2);
+        if (this.position.OnBoard(2, 1) && currBoard.squareCanMove(this.figColor,this.position.getX()+2, this.position.getY()+1)) {
+            moveList.add(new Pair(this.position, 2, 1));
+            currBoard.coverSquare(this.figColor, this.position.getX() + 2, this.position.getY() + 1);
         }
-        if(this.Position.OnBoard(1, -2) && CurrBoard.SquareCanMove(this.FigColor,this.Position.getX()+1, this.Position.getY()-2)){
-            MoveList.add(new Pair(this.Position, 1, -2));
-            CurrBoard.CoverSquare(this.FigColor, this.Position.getX() + 1, this.Position.getY() - 2);
+        if (this.position.OnBoard(-2, 1) && currBoard.squareCanMove(this.figColor,this.position.getX()-2, this.position.getY()+1)) {
+            moveList.add(new Pair(this.position, -2, 1));
+            currBoard.coverSquare(this.figColor, this.position.getX() - 2, this.position.getY() + 1);
         }
-        if(this.Position.OnBoard(-1, -2) && CurrBoard.SquareCanMove(this.FigColor,this.Position.getX()-1, this.Position.getY()-2)){
-            MoveList.add(new Pair(this.Position, -1, -2));
-            CurrBoard.CoverSquare(this.FigColor, this.Position.getX() - 1, this.Position.getY() - 2);
+        if (this.position.OnBoard(1, -2) && currBoard.squareCanMove(this.figColor,this.position.getX()+1, this.position.getY()-2)) {
+            moveList.add(new Pair(this.position, 1, -2));
+            currBoard.coverSquare(this.figColor, this.position.getX() + 1, this.position.getY() - 2);
         }
-        if(this.Position.OnBoard(2, -1) && CurrBoard.SquareCanMove(this.FigColor,this.Position.getX()+2, this.Position.getY()-1)){
-            MoveList.add(new Pair(this.Position, 2, -1));
-            CurrBoard.CoverSquare(this.FigColor, this.Position.getX() + 2, this.Position.getY() - 1);
+        if (this.position.OnBoard(-1, -2) && currBoard.squareCanMove(this.figColor,this.position.getX()-1, this.position.getY()-2)) {
+            moveList.add(new Pair(this.position, -1, -2));
+            currBoard.coverSquare(this.figColor, this.position.getX() - 1, this.position.getY() - 2);
         }
-        if(this.Position.OnBoard(-2, -1) && CurrBoard.SquareCanMove(this.FigColor,this.Position.getX()-2, this.Position.getY()-1)){
-            MoveList.add(new Pair(this.Position, -2, -2));
-            CurrBoard.CoverSquare(this.FigColor, this.Position.getX() - 2, this.Position.getY() - 1);
+        if (this.position.OnBoard(2, -1) && currBoard.squareCanMove(this.figColor,this.position.getX()+2, this.position.getY()-1)) {
+            moveList.add(new Pair(this.position, 2, -1));
+            currBoard.coverSquare(this.figColor, this.position.getX() + 2, this.position.getY() - 1);
+        }
+        if (this.position.OnBoard(-2, -1) && currBoard.squareCanMove(this.figColor,this.position.getX()-2, this.position.getY()-1)) {
+            moveList.add(new Pair(this.position, -2, -1));
+            currBoard.coverSquare(this.figColor, this.position.getX() - 2, this.position.getY() - 1);
         }
     }
 
     //Единственный способ остановить коня это убить его
     @Override
-    ArrayList<Pair> SaveKingList(Board CurrBoard, Pair KingPos) {
+    ArrayList<Pair> saveKingList(Board currBoard, Pair kingPos) {
         ArrayList<Pair> A = new ArrayList<>();
-        A.add(new Pair(this.Position.getX(), this.Position.getY()));
+        A.add(new Pair(this.position.getX(), this.position.getY()));
         return A;
     }
     //Заглушка для наследование
     @Override
-    void CoverSquares(Board CurrBoard) {
+    void coverSquares(Board currBoard) {
     }
 }

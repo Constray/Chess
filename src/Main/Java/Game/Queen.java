@@ -1,13 +1,13 @@
-package Game;
+package game;
 
 import java.util.ArrayList;
 
 class Queen extends Figure {
-    Queen(Color newColor, ArrayList<Figure> figList, Pair p) {
+    Queen(FigColor newColor, ArrayList<Figure> figList, Pair p) {
         super(newColor, figList, p);
     }
 
-    Queen(Color newColor, Pair p) {
+    Queen(FigColor newColor, Pair p) {
         super(newColor, p);
     }
 
@@ -17,232 +17,265 @@ class Queen extends Figure {
     }
 
     @Override
-    void CreateMoveList(Board CurrBoard) {
-        MoveList.clear();
-        CoverSquares(CurrBoard);
-        //Up-Right
-        for (int i = this.Position.getX() + 1, j = this.Position.getY() + 1; Pair.OnBoard(i, j, false); i++, j++) {
-            if (CurrBoard.getSquare(i, j).currFig == null)
-                MoveList.add(new Pair(i, j));
-            else if (CurrBoard.getSquare(i, j).currFig.FigColor != this.FigColor) {
-                MoveList.add(new Pair(i, j));
-                CurrBoard.CoverSquare(this.FigColor, i, j);
-                break;
-            } else
-                break;
-        }
-        //Up-Left
-        for (int i = this.Position.getX() - 1, j = this.Position.getY() + 1; Pair.OnBoard(i, j, false); i--, j++) {
-            if (CurrBoard.getSquare(i, j).currFig == null)
-                MoveList.add(new Pair(i, j));
-            else if (CurrBoard.getSquare(i, j).currFig.FigColor != this.FigColor) {
-                MoveList.add(new Pair(i, j));
-                CurrBoard.CoverSquare(this.FigColor, i, j);
-                break;
-            } else
-                break;
-        }
-        //Down-Right
-        for (int i = this.Position.getX() + 1, j = this.Position.getY() - 1; Pair.OnBoard(i, j, false); i++, j--) {
-            if (CurrBoard.getSquare(i, j).currFig == null)
-                MoveList.add(new Pair(i, j));
-            else if (CurrBoard.getSquare(i, j).currFig.FigColor != this.FigColor) {
-                MoveList.add(new Pair(i, j));
-                CurrBoard.CoverSquare(this.FigColor, i, j);
-                break;
-            } else
-                break;
-        }
-        //Down-Left
-        for (int i = this.Position.getX() - 1, j = this.Position.getY() - 1; Pair.OnBoard(i, j, false); i--, j--) {
-            if (CurrBoard.getSquare(i, j).currFig == null)
-                MoveList.add(new Pair(i, j));
-            else if (CurrBoard.getSquare(i, j).currFig.FigColor != this.FigColor) {
-                MoveList.add(new Pair(i, j));
-                CurrBoard.CoverSquare(this.FigColor, i, j);
-                break;
-            } else
-                break;
-        }
-        //Right
-        for(int i = this.Position.getX() + 1; i < 8 ; i++){
-            if(CurrBoard.getSquare(i, this.Position.getY()).currFig == null)
-                MoveList.add(new Pair(i, this.Position.getY()));
-            else if(CurrBoard.getSquare(i, this.Position.getY()).currFig.FigColor != this.FigColor){
-                MoveList.add(new Pair(i, this.Position.getY()));
-                CurrBoard.CoverSquare(this.FigColor, i, this.Position.getY());
-                break;
+    void createMoveList(Board currBoard) {
+        moveList.clear();
+        coverSquares(currBoard);
+        boolean rightDownDiag = super.canMoveRightDownDiagonal(currBoard);
+        boolean leftDownDiag = super.canMoveLeftDownDiagonal(currBoard);
+        boolean vertMove = super.canMoveVertically(currBoard);
+        boolean horMove = super.canMoveHorizontally(currBoard);
+        if (vertMove && horMove && leftDownDiag) {
+            //Up-Right
+            for (int i = this.position.getX() + 1, j = this.position.getY() + 1; Pair.OnBoard(i, j, false); i++, j++) {
+                if (currBoard.getSquare(i, j).currFig == null)
+                    moveList.add(new Pair(i, j));
+                else if (currBoard.getSquare(i, j).currFig.figColor != this.figColor) {
+                    moveList.add(new Pair(i, j));
+                    currBoard.coverSquare(this.figColor, i, j);
+                    break;
+                } else
+                    break;
             }
-            else
-                break;
-        }
-        //Left
-        for(int i = this.Position.getX() - 1; i >= 0 ; i--){
-            if(CurrBoard.getSquare(i, this.Position.getY()).currFig == null)
-                MoveList.add(new Pair(i, this.Position.getY()));
-            else if(CurrBoard.getSquare(i, this.Position.getY()).currFig.FigColor != this.FigColor){
-                MoveList.add(new Pair(i, this.Position.getY()));
-                CurrBoard.CoverSquare(this.FigColor, i, this.Position.getY());
-                break;
+            //Down-Left
+            for (int i = this.position.getX() - 1, j = this.position.getY() - 1; Pair.OnBoard(i, j, false); i--, j--) {
+                if (currBoard.getSquare(i, j).currFig == null)
+                    moveList.add(new Pair(i, j));
+                else if (currBoard.getSquare(i, j).currFig.figColor != this.figColor) {
+                    moveList.add(new Pair(i, j));
+                    break;
+                } else
+                    break;
             }
-            else
-                break;
         }
-        //Up
-        for(int i = this.Position.getY() + 1; i < 8 ; i++){
-            if(CurrBoard.getSquare(this.Position.getX(), i).currFig == null)
-                MoveList.add(new Pair(this.Position.getX(), i));
-            else if(CurrBoard.getSquare(this.Position.getX(), i).currFig.FigColor != this.FigColor){
-                MoveList.add(new Pair(this.Position.getX(), i));
-                CurrBoard.CoverSquare(this.FigColor, this.Position.getX(), i);
-                break;
+        if (vertMove && horMove && rightDownDiag) {
+            //Up-Left
+            for (int i = this.position.getX() - 1, j = this.position.getY() + 1; Pair.OnBoard(i, j, false); i--, j++) {
+                if (currBoard.getSquare(i, j).currFig == null)
+                    moveList.add(new Pair(i, j));
+                else if (currBoard.getSquare(i, j).currFig.figColor != this.figColor) {
+                    moveList.add(new Pair(i, j));
+                    break;
+                } else
+                    break;
             }
-            else
-                break;
+            //Down-Right
+            for (int i = this.position.getX() + 1, j = this.position.getY() - 1; Pair.OnBoard(i, j, false); i++, j--) {
+                if (currBoard.getSquare(i, j).currFig == null)
+                    moveList.add(new Pair(i, j));
+                else if (currBoard.getSquare(i, j).currFig.figColor != this.figColor) {
+                    moveList.add(new Pair(i, j));
+                    break;
+                } else
+                    break;
+            }
         }
-        //Down
-        for(int i = this.Position.getY() - 1; i >= 0; i--){
-            if(CurrBoard.getSquare(this.Position.getX(), i).currFig == null)
-                MoveList.add(new Pair(this.Position.getX(), i));
-            else if(CurrBoard.getSquare(this.Position.getX(), i).currFig.FigColor != this.FigColor){
-                MoveList.add(new Pair(this.Position.getX(), i));
-                CurrBoard.CoverSquare(this.FigColor, this.Position.getX(), i);
-                break;
+        if (rightDownDiag && leftDownDiag && horMove) {
+            //Right
+            for(int i = this.position.getX() + 1; i < 8 ; i++){
+                if(currBoard.getSquare(i, this.position.getY()).currFig == null)
+                    moveList.add(new Pair(i, this.position.getY()));
+                else if(currBoard.getSquare(i, this.position.getY()).currFig.figColor != this.figColor){
+                    moveList.add(new Pair(i, this.position.getY()));
+                    break;
+                }
+                else
+                    break;
             }
-            else
-                break;
+            //Left
+            for(int i = this.position.getX() - 1; i >= 0 ; i--){
+                if(currBoard.getSquare(i, this.position.getY()).currFig == null)
+                    moveList.add(new Pair(i, this.position.getY()));
+                else if(currBoard.getSquare(i, this.position.getY()).currFig.figColor != this.figColor){
+                    moveList.add(new Pair(i, this.position.getY()));
+                    break;
+                }
+                else
+                    break;
+            }
+        }
+        if (rightDownDiag && leftDownDiag && vertMove) {
+            //Up
+            for(int i = this.position.getY() + 1; i < 8 ; i++){
+                if(currBoard.getSquare(this.position.getX(), i).currFig == null)
+                    moveList.add(new Pair(this.position.getX(), i));
+                else if(currBoard.getSquare(this.position.getX(), i).currFig.figColor != this.figColor){
+                    moveList.add(new Pair(this.position.getX(), i));
+                    break;
+                }
+                else
+                    break;
+            }
+            //Down
+            for(int i = this.position.getY() - 1; i >= 0; i--){
+                if(currBoard.getSquare(this.position.getX(), i).currFig == null)
+                    moveList.add(new Pair(this.position.getX(), i));
+                else if(currBoard.getSquare(this.position.getX(), i).currFig.figColor != this.figColor){
+                    moveList.add(new Pair(this.position.getX(), i));
+                    break;
+                }
+                else
+                    break;
+            }
         }
     }
 
     @Override
-    ArrayList<Pair> SaveKingList(Board CurrBoard, Pair KingPos) {
+    ArrayList<Pair> saveKingList(Board currBoard, Pair kingPos) {
         ArrayList<Pair> A = new ArrayList<>();
-        A.add(new Pair(this.Position.getX(), this.Position.getY()));
+        A.add(new Pair(this.position.getX(), this.position.getY()));
         //Если король сверху-справа
-        if (KingPos.getX() > this.Position.getX() && KingPos.getY() > this.Position.getY())
-            for (int i = this.Position.getX() + 1, j = this.Position.getY() + 1; i < KingPos.getX() && j < KingPos.getY(); i++, j++)
+        if (kingPos.getX() > this.position.getX() && kingPos.getY() > this.position.getY())
+            for (int i = this.position.getX() + 1, j = this.position.getY() + 1; i < kingPos.getX() && j < kingPos.getY(); i++, j++)
                 A.add(new Pair(i,j));
         //Есди король сверху-слева
-        else if (KingPos.getX() < this.Position.getX() && KingPos.getY() > this.Position.getY())
-            for (int i = this.Position.getX() - 1, j = this.Position.getY() + 1; i > KingPos.getX() && j < KingPos.getY(); i--, j++)
+        else if (kingPos.getX() < this.position.getX() && kingPos.getY() > this.position.getY())
+            for (int i = this.position.getX() - 1, j = this.position.getY() + 1; i > kingPos.getX() && j < kingPos.getY(); i--, j++)
                 A.add(new Pair(i,j));
         //Если король снизу-справа
-        else if (KingPos.getX() > this.Position.getX() && KingPos.getY() < this.Position.getY())
-            for (int i = this.Position.getX() + 1, j = this.Position.getY() - 1; i < KingPos.getX() && j > KingPos.getY(); i++, j--)
+        else if (kingPos.getX() > this.position.getX() && kingPos.getY() < this.position.getY())
+            for (int i = this.position.getX() + 1, j = this.position.getY() - 1; i < kingPos.getX() && j > kingPos.getY(); i++, j--)
                 A.add(new Pair(i,j));
         //Если король снизу-слева
-        else if (KingPos.getX() < this.Position.getX() && KingPos.getY() < this.Position.getY())
-            for (int i = this.Position.getX() - 1, j = this.Position.getY() - 1; i > KingPos.getX() && j > KingPos.getY(); i--, j--)
+        else if (kingPos.getX() < this.position.getX() && kingPos.getY() < this.position.getY())
+            for (int i = this.position.getX() - 1, j = this.position.getY() - 1; i > kingPos.getX() && j > kingPos.getY(); i--, j--)
                 A.add(new Pair(i,j));
         //Если король справа
-        else if (KingPos.getX() > this.Position.getX())
-            for (int i = this.Position.getX() + 1; i < KingPos.getX(); i++)
-                A.add(new Pair(i,this.Position.getY()));
+        else if (kingPos.getX() > this.position.getX())
+            for (int i = this.position.getX() + 1; i < kingPos.getX(); i++)
+                A.add(new Pair(i,this.position.getY()));
         //Если король слева
-        else if (KingPos.getX() < this.Position.getX())
-            for (int i = KingPos.getX() - 1; i > this.Position.getX(); i--)
-                A.add(new Pair(i,this.Position.getY()));
+        else if (kingPos.getX() < this.position.getX())
+            for (int i = kingPos.getX() - 1; i > this.position.getX(); i--)
+                A.add(new Pair(i,this.position.getY()));
         //Если король сверху
-        else if (KingPos.getY() > this.Position.getY())
-            for (int i = this.Position.getY() + 1; i < KingPos.getY(); i++)
-                A.add(new Pair(this.Position.getX(),i));
+        else if (kingPos.getY() > this.position.getY())
+            for (int i = this.position.getY() + 1; i < kingPos.getY(); i++)
+                A.add(new Pair(this.position.getX(),i));
         //Если король снизу
-        else if (KingPos.getY() < this.Position.getY())
-            for (int i = KingPos.getY() - 1; i > Position.getY(); i++)
-                A.add(new Pair(this.Position.getX(),i));
+        else if (kingPos.getY() < this.position.getY())
+            for (int i = kingPos.getY() - 1; i > position.getY(); i++)
+                A.add(new Pair(this.position.getX(),i));
         return A;
     }
 
     @Override
-    void CoverSquares(Board CurrBoard) {
+    void coverSquares(Board currBoard) {
         //Up-Right
-        for (int i = this.Position.getX() + 1, j = this.Position.getY() + 1; Pair.OnBoard(i, j, false); i++, j++) {
-            if (CurrBoard.getSquare(i, j).currFig == null)
-                CurrBoard.CoverSquare(this.FigColor, i, j);
-            else if (CurrBoard.getSquare(i, j).currFig.FigColor != this.FigColor) {
-                CurrBoard.CoverSquare(this.FigColor, i, j);
-                if(CurrBoard.getSquare(i, j).currFig.getType() != Type.KING)
+        for (int i = this.position.getX() + 1, j = this.position.getY() + 1; Pair.OnBoard(i, j, false); i++, j++) {
+            if (currBoard.getSquare(i, j).currFig == null)
+                currBoard.coverSquare(this.figColor, i, j);
+            else if (currBoard.getSquare(i, j).currFig.figColor != this.figColor) {
+                currBoard.coverSquare(this.figColor, i, j);
+                if (currBoard.getSquare(i, j).currFig.getType() != Type.KING)
                     break;
+            } else if (currBoard.getSquare(i, j).currFig.figColor == this.figColor) {
+                currBoard.coverSquare(this.figColor, i, j);
+                break;
             } else
                 break;
         }
         //Up-Left
-        for (int i = this.Position.getX() - 1, j = this.Position.getY() + 1; Pair.OnBoard(i, j, false); i--, j++) {
-            if (CurrBoard.getSquare(i, j).currFig == null)
-                CurrBoard.CoverSquare(this.FigColor, i, j);
-            else if (CurrBoard.getSquare(i, j).currFig.FigColor != this.FigColor) {
-                CurrBoard.CoverSquare(this.FigColor, i, j);
-                if(CurrBoard.getSquare(i, j).currFig.getType() != Type.KING)
+        for (int i = this.position.getX() - 1, j = this.position.getY() + 1; Pair.OnBoard(i, j, false); i--, j++) {
+            if (currBoard.getSquare(i, j).currFig == null)
+                currBoard.coverSquare(this.figColor, i, j);
+            else if (currBoard.getSquare(i, j).currFig.figColor != this.figColor) {
+                currBoard.coverSquare(this.figColor, i, j);
+                if (currBoard.getSquare(i, j).currFig.getType() != Type.KING)
                     break;
+            } else if (currBoard.getSquare(i, j).currFig.figColor == this.figColor) {
+                currBoard.coverSquare(this.figColor, i, j);
+                break;
             } else
                 break;
         }
         //Down-Right
-        for (int i = this.Position.getX() + 1, j = this.Position.getY() - 1; Pair.OnBoard(i, j, false); i++, j--) {
-            if (CurrBoard.getSquare(i, j).currFig == null)
-                CurrBoard.CoverSquare(this.FigColor, i, j);
-            else if (CurrBoard.getSquare(i, j).currFig.FigColor != this.FigColor) {
-                CurrBoard.CoverSquare(this.FigColor, i, j);
-                if(CurrBoard.getSquare(i, j).currFig.getType() != Type.KING)
+        for (int i = this.position.getX() + 1, j = this.position.getY() - 1; Pair.OnBoard(i, j, false); i++, j--) {
+            if (currBoard.getSquare(i, j).currFig == null)
+                currBoard.coverSquare(this.figColor, i, j);
+            else if (currBoard.getSquare(i, j).currFig.figColor != this.figColor) {
+                currBoard.coverSquare(this.figColor, i, j);
+                if (currBoard.getSquare(i, j).currFig.getType() != Type.KING)
                     break;
+            } else if (currBoard.getSquare(i, j).currFig.figColor == this.figColor) {
+                currBoard.coverSquare(this.figColor, i, j);
+                break;
             } else
                 break;
         }
         //Down-Left
-        for (int i = this.Position.getX() - 1, j = this.Position.getY() - 1; Pair.OnBoard(i, j, false); i--, j--) {
-            if (CurrBoard.getSquare(i, j).currFig == null)
-                CurrBoard.CoverSquare(this.FigColor, i, j);
-            else if (CurrBoard.getSquare(i, j).currFig.FigColor != this.FigColor) {
-                CurrBoard.CoverSquare(this.FigColor, i, j);
-                if (CurrBoard.getSquare(i, j).currFig.getType() != Type.KING)
+        for (int i = this.position.getX() - 1, j = this.position.getY() - 1; Pair.OnBoard(i, j, false); i--, j--) {
+            if (currBoard.getSquare(i, j).currFig == null)
+                currBoard.coverSquare(this.figColor, i, j);
+            else if (currBoard.getSquare(i, j).currFig.figColor != this.figColor) {
+                currBoard.coverSquare(this.figColor, i, j);
+                if (currBoard.getSquare(i, j).currFig.getType() != Type.KING)
                     break;
+            } else if (currBoard.getSquare(i, j).currFig.figColor == this.figColor) {
+                currBoard.coverSquare(this.figColor, i, j);
+                break;
             } else
                 break;
         }
         //Right
-        for(int i = this.Position.getX() + 1; i < 8 ; i++){
-            if(CurrBoard.getSquare(i, this.Position.getY()).currFig == null)
-                CurrBoard.CoverSquare(this.FigColor, i, this.Position.getY());
-            else if(CurrBoard.getSquare(i, this.Position.getY()).currFig.FigColor != this.FigColor){
-                CurrBoard.CoverSquare(this.FigColor, i, this.Position.getY());
-                if(CurrBoard.getSquare(i, this.Position.getY()).currFig.getType() != Type.KING)
+        for(int i = this.position.getX() + 1; i < 8 ; i++){
+            if(currBoard.getSquare(i, this.position.getY()).currFig == null)
+                currBoard.coverSquare(this.figColor, i, this.position.getY());
+            else if(currBoard.getSquare(i, this.position.getY()).currFig.figColor != this.figColor){
+                currBoard.coverSquare(this.figColor, i, this.position.getY());
+                if(currBoard.getSquare(i, this.position.getY()).currFig.getType() != Type.KING)
                     break;
+            }
+            else if(currBoard.getSquare(i, this.position.getY()).currFig.figColor == this.figColor) {
+                currBoard.coverSquare(this.figColor, i, this.position.getY());
+                break;
             }
             else
                 break;
         }
         //Left
-        for(int i = this.Position.getX() - 1; i >= 0 ; i--){
-            if(CurrBoard.getSquare(i, this.Position.getY()).currFig == null)
-                CurrBoard.CoverSquare(this.FigColor, i, this.Position.getY());
-            else if(CurrBoard.getSquare(i, this.Position.getY()).currFig.FigColor != this.FigColor){
-                CurrBoard.CoverSquare(this.FigColor, i, this.Position.getY());
-                if(CurrBoard.getSquare(i, this.Position.getY()).currFig.getType() != Type.KING)
+        for(int i = this.position.getX() - 1; i >= 0 ; i--){
+            if(currBoard.getSquare(i, this.position.getY()).currFig == null)
+                currBoard.coverSquare(this.figColor, i, this.position.getY());
+            else if(currBoard.getSquare(i, this.position.getY()).currFig.figColor != this.figColor){
+                currBoard.coverSquare(this.figColor, i, this.position.getY());
+                if(currBoard.getSquare(i, this.position.getY()).currFig.getType() != Type.KING)
                     break;
+            }
+            else if(currBoard.getSquare(i, this.position.getY()).currFig.figColor == this.figColor) {
+                currBoard.coverSquare(this.figColor, i, this.position.getY());
+                break;
             }
             else
                 break;
         }
         //Up
-        for(int i = this.Position.getY() + 1; i < 8 ; i++){
-            if(CurrBoard.getSquare(this.Position.getX(), i).currFig == null)
-                CurrBoard.CoverSquare(this.FigColor, this.Position.getX(), i);
-            else if(CurrBoard.getSquare(this.Position.getX(), i).currFig.FigColor != this.FigColor){
-                CurrBoard.CoverSquare(this.FigColor, this.Position.getX(), i);
-                if(CurrBoard.getSquare(this.Position.getX(), i).currFig.getType() != Type.KING)
+        for(int i = this.position.getY() + 1; i < 8 ; i++){
+            if(currBoard.getSquare(this.position.getX(), i).currFig == null)
+                currBoard.coverSquare(this.figColor, this.position.getX(), i);
+            else if(currBoard.getSquare(this.position.getX(), i).currFig.figColor != this.figColor){
+                currBoard.coverSquare(this.figColor, this.position.getX(), i);
+                if(currBoard.getSquare(this.position.getX(), i).currFig.getType() != Type.KING)
                     break;
+            }
+            else if(currBoard.getSquare(this.position.getX(), i).currFig.figColor == this.figColor) {
+                currBoard.coverSquare(this.figColor, this.position.getX(), i);
+                break;
             }
             else
                 break;
         }
         //Down
-        for(int i = this.Position.getY() - 1; i >= 0; i--){
-            if(CurrBoard.getSquare(this.Position.getX(), i).currFig == null)
-                CurrBoard.CoverSquare(this.FigColor, this.Position.getX(), i);
-            else if(CurrBoard.getSquare(this.Position.getX(), i).currFig.FigColor != this.FigColor){
-                CurrBoard.CoverSquare(this.FigColor, this.Position.getX(), i);
-                if(CurrBoard.getSquare(this.Position.getX(), i).currFig.getType() != Type.KING)
+        for(int i = this.position.getY() - 1; i >= 0; i--){
+            if(currBoard.getSquare(this.position.getX(), i).currFig == null)
+                currBoard.coverSquare(this.figColor, this.position.getX(), i);
+            else if(currBoard.getSquare(this.position.getX(), i).currFig.figColor != this.figColor){
+                currBoard.coverSquare(this.figColor, this.position.getX(), i);
+                if(currBoard.getSquare(this.position.getX(), i).currFig.getType() != Type.KING)
                     break;
+            }
+            else if(currBoard.getSquare(this.position.getX(), i).currFig.figColor == this.figColor) {
+                currBoard.coverSquare(this.figColor, this.position.getX(), i);
+                break;
             }
             else
                 break;
