@@ -15,6 +15,9 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import org.apache.log4j.Logger;
+
+import report.PdfAndHtmlReport;
 import report.XmlReport;
 
 class MainFrame extends javax.swing.JFrame {
@@ -26,6 +29,20 @@ class MainFrame extends javax.swing.JFrame {
         txtFileChooser.setFileFilter(new FileNameExtensionFilter("Text file (*.txt)", "txt"));
         xmlFileChooser.setFileFilter(new FileNameExtensionFilter("XML file (*.xml)", "xml"));
         pdfHtmlFileChooser.setFileFilter(new FileNameExtensionFilter("PDF and HTML file (*.pdf, *.html)", "pdf", "html"));
+        int n = JOptionPane.showConfirmDialog(this,"Do you want to play with bot?",
+                "bot", JOptionPane.YES_NO_OPTION);
+        if (n == 0) {
+            playWithBot = true;
+            Object[] options = {"White",
+                    "Black"};
+            int m = JOptionPane.showOptionDialog(this,"Do you want to play as white or black?",
+                    "Choose your side.", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+            if (m == 1) {
+                String moveString = mainGame.botMove();
+                movesTextArea.append(moveString + "\n");
+                refreshImage();
+            }
+        }
     }
 
     private Game mainGame;
@@ -37,6 +54,10 @@ class MainFrame extends javax.swing.JFrame {
     private Pair mouseOnBoardPosition = new Pair(0,0);
 
     private Point mouseLocation;
+
+    private  boolean playWithBot = false;
+
+    private static final Logger log = Logger.getLogger(MainFrame.class);
 
     private final JFileChooser txtFileChooser = new JFileChooser();
     private final JFileChooser xmlFileChooser = new JFileChooser();
@@ -67,11 +88,11 @@ class MainFrame extends javax.swing.JFrame {
         ImageIcon loadXmlIcon = null;
         ImageIcon savePdfIcon = null;
         try {
-            saveFileIcon = new ImageIcon(resizeIcon(ImageIO.read(new File("src\\Main\\Resources\\icons\\fileSave.png"))));
-            loadFileIcon = new ImageIcon(resizeIcon(ImageIO.read(new File("src\\Main\\Resources\\icons\\fileRead.png"))));
-            saveXmlIcon = new ImageIcon(resizeIcon(ImageIO.read(new File("src\\Main\\Resources\\icons\\xmlSave.png"))));
-            loadXmlIcon = new ImageIcon(resizeIcon(ImageIO.read(new File("src\\Main\\Resources\\icons\\xmlRead.png"))));
-            savePdfIcon = new ImageIcon(resizeIcon(ImageIO.read(new File("src\\Main\\Resources\\icons\\pdfReport.png"))));
+            saveFileIcon = new ImageIcon(resizeIcon(ImageIO.read(new File("src\\Main\\resources\\icons\\fileSave.png"))));
+            loadFileIcon = new ImageIcon(resizeIcon(ImageIO.read(new File("src\\Main\\resources\\icons\\fileRead.png"))));
+            saveXmlIcon = new ImageIcon(resizeIcon(ImageIO.read(new File("src\\Main\\resources\\icons\\xmlSave.png"))));
+            loadXmlIcon = new ImageIcon(resizeIcon(ImageIO.read(new File("src\\Main\\resources\\icons\\xmlRead.png"))));
+            savePdfIcon = new ImageIcon(resizeIcon(ImageIO.read(new File("src\\Main\\resources\\icons\\pdfReport.png"))));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -226,11 +247,6 @@ class MainFrame extends javax.swing.JFrame {
         savePDFandHTML.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 savePDFandHTMLMouseClicked(evt);
-            }
-        });
-        savePDFandHTML.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                savePDFandHTMLActionPerformed(evt);
             }
         });
         toolBar.add(savePDFandHTML);
@@ -428,6 +444,21 @@ class MainFrame extends javax.swing.JFrame {
     private void gameStartButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_gameStartButtonMouseClicked
         gameStartButton.setEnabled(false);
         boardImage.setEnabled(false);
+        playWithBot = false;
+        int n = JOptionPane.showConfirmDialog(this,"Do you want to play with bot?",
+                "bot", JOptionPane.YES_NO_OPTION);
+        if (n == 0) {
+            playWithBot = true;
+            Object[] options = {"White",
+                    "Black"};
+            int m = JOptionPane.showOptionDialog(this,"Do you want to play as white or black?",
+                    "Choose your side.", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+            if (m == 1) {
+                String moveString = mainGame.botMove();
+                movesTextArea.append(moveString + "\n");
+                refreshImage();
+            }
+        }
         if (evt.getSource() == gameStartButton) {
             mainGame = new Game();
             this.movesTextArea.setText("");
@@ -435,6 +466,7 @@ class MainFrame extends javax.swing.JFrame {
             System.gc();
         }
         boardImage.setEnabled(true);
+        log.info("Game restarted");
         gameStartButton.setEnabled(true);
     }//GEN-LAST:event_gameStartButtonMouseClicked
 
@@ -446,6 +478,7 @@ class MainFrame extends javax.swing.JFrame {
                 mainGame.createSaveFile(txtFileChooser.getSelectedFile().getAbsolutePath() + ".txt");
             }
         }
+        log.info("Game saved to txt file");
         saveFileButton.setEnabled(true);
     }//GEN-LAST:event_saveFileButtonMouseClicked
 
@@ -459,6 +492,7 @@ class MainFrame extends javax.swing.JFrame {
                 } catch (IllegalArgumentException e) {
                     e.printStackTrace();
                     JOptionPane.showMessageDialog(this, "Corrupted file input.");
+                    log.error("Corrupted file input.");
                 }
                 ArrayList<String> strings = mainGame.getGameSaveList();
                 movesTextArea.setText("");
@@ -466,8 +500,24 @@ class MainFrame extends javax.swing.JFrame {
                     movesTextArea.append(str + "\n");
                 }
             }
+            playWithBot = false;
+            int n = JOptionPane.showConfirmDialog(this,"Do you want to play with bot?",
+                    "bot", JOptionPane.YES_NO_OPTION);
+            if (n == 0) {
+                playWithBot = true;
+                Object[] options = {"White",
+                        "Black"};
+                int m = JOptionPane.showOptionDialog(this,"Do you want to play as white or black?",
+                        "Choose your side.", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+                if (m == 1) {
+                    String moveString = mainGame.botMove();
+                    movesTextArea.append(moveString + "\n");
+                    refreshImage();
+                }
+            }
             refreshImage();
         }
+        log.info("Game loaded from txt file");
         loadFileButton.setEnabled(true);
     }//GEN-LAST:event_loadFileButtonMouseClicked
 
@@ -479,6 +529,7 @@ class MainFrame extends javax.swing.JFrame {
                 XmlReport.saveXmlFile(xmlFileChooser.getSelectedFile().getAbsolutePath() + ".xml", mainGame.getGameSaveList());
             }
         }
+        log.info("Game saved to XML file");
         saveToXML.setEnabled(true);
     }//GEN-LAST:event_saveToXMLMouseClicked
 
@@ -501,15 +552,30 @@ class MainFrame extends javax.swing.JFrame {
             }
             refreshImage();
         }
+        playWithBot = false;
+        int n = JOptionPane.showConfirmDialog(this,"Do you want to play with bot?",
+                "bot", JOptionPane.YES_NO_OPTION);
+        if (n == 0) {
+            playWithBot = true;
+            Object[] options = {"White",
+                    "Black"};
+            int m = JOptionPane.showOptionDialog(this,"Do you want to play as white or black?",
+                    "Choose your side.", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+            if (m == 1) {
+                String moveString = mainGame.botMove();
+                movesTextArea.append(moveString + "\n");
+                refreshImage();
+            }
+        }
+        log.info("Game loaded from XML file");
         loadFromXML.setEnabled(true);
     }//GEN-LAST:event_loadFromXMLMouseClicked
 
-    private void savePDFandHTMLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_savePDFandHTMLActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_savePDFandHTMLActionPerformed
-
     private void savePDFandHTMLMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_savePDFandHTMLMouseClicked
-        // TODO add your handling code here:
+        savePDFandHTML.setEnabled(false);
+        PdfAndHtmlReport.writePdfFile("PDFReport.pdf", mainGame.getGameSaveList());
+        PdfAndHtmlReport.writeHtmlFile("HTMLReport.html", mainGame.getGameSaveList());
+        savePDFandHTML.setEnabled(true);
     }//GEN-LAST:event_savePDFandHTMLMouseClicked
 
     private void boardImageMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_boardImageMouseExited
@@ -542,18 +608,26 @@ class MainFrame extends javax.swing.JFrame {
         if (null != moveString) {
             if (moveString.length() == 4) {
                 this.movesTextArea.append(moveString + "\n");
-            } else if (moveString.length() > 4) {
+                if (playWithBot) {
+                    moveString = mainGame.botMove();
+                    movesTextArea.append(moveString + "\n");
+                    refreshImage();
+                }
+            }
+            if (moveString.length() > 4) {
                 refreshImage();
                 int n = JOptionPane.showConfirmDialog(this,moveString + "\nWould you like to save report?",
                                                       "Someone wins", JOptionPane.YES_NO_OPTION);
                 if (n == 0) {
-                    // TODO add report writing
+                    PdfAndHtmlReport.writePdfFile("PDFReport.pdf", mainGame.getGameSaveList());
+                    PdfAndHtmlReport.writeHtmlFile("HTMLReport.html", mainGame.getGameSaveList());
                 }
                 mainGame = new Game();
                 this.movesTextArea.setText("");
             }
         }
         refreshImage();
+        log.info("Board clicked at position:" + mouseOnBoardPosition.toString());
         boardImage.setEnabled(true);
     }//GEN-LAST:event_boardImageMouseClicked
 

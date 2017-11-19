@@ -1,7 +1,5 @@
 package game;
 
-import com.sun.javaws.exceptions.InvalidArgumentException;
-
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -66,19 +64,19 @@ public class Game {
         BufferedImage tempWhiteQueen = null;
         BufferedImage tempWhiteRook = null;
         try {
-            tempEmptyBoard = ImageIO.read(new File("src\\Main\\Resources\\brown.png"));
-            tempBlackBishop = ImageIO.read(new File("src\\Main\\Resources\\bB.png"));
-            tempBlackKing = ImageIO.read(new File("src\\Main\\Resources\\bK.png"));
-            tempBlackKnight = ImageIO.read(new File("src\\Main\\Resources\\bN.png"));
-            tempBlackPawn = ImageIO.read(new File("src\\Main\\Resources\\bP.png"));
-            tempBlackQueen = ImageIO.read(new File("src\\Main\\Resources\\bQ.png"));
-            tempBlackRook = ImageIO.read(new File("src\\Main\\Resources\\bR.png"));
-            tempWhiteBishop = ImageIO.read(new File("src\\Main\\Resources\\wB.png"));
-            tempWhiteKing = ImageIO.read(new File("src\\Main\\Resources\\wK.png"));
-            tempWhiteKnight = ImageIO.read(new File("src\\Main\\Resources\\wN.png"));
-            tempWhitePawn = ImageIO.read(new File("src\\Main\\Resources\\wP.png"));
-            tempWhiteQueen = ImageIO.read(new File("src\\Main\\Resources\\wQ.png"));
-            tempWhiteRook = ImageIO.read(new File("src\\Main\\Resources\\wR.png"));
+            tempEmptyBoard = ImageIO.read(new File("src\\Main\\resources\\brown.png"));
+            tempBlackBishop = ImageIO.read(new File("src\\Main\\resources\\bB.png"));
+            tempBlackKing = ImageIO.read(new File("src\\Main\\resources\\bK.png"));
+            tempBlackKnight = ImageIO.read(new File("src\\Main\\resources\\bN.png"));
+            tempBlackPawn = ImageIO.read(new File("src\\Main\\resources\\bP.png"));
+            tempBlackQueen = ImageIO.read(new File("src\\Main\\resources\\bQ.png"));
+            tempBlackRook = ImageIO.read(new File("src\\Main\\resources\\bR.png"));
+            tempWhiteBishop = ImageIO.read(new File("src\\Main\\resources\\wB.png"));
+            tempWhiteKing = ImageIO.read(new File("src\\Main\\resources\\wK.png"));
+            tempWhiteKnight = ImageIO.read(new File("src\\Main\\resources\\wN.png"));
+            tempWhitePawn = ImageIO.read(new File("src\\Main\\resources\\wP.png"));
+            tempWhiteQueen = ImageIO.read(new File("src\\Main\\resources\\wQ.png"));
+            tempWhiteRook = ImageIO.read(new File("src\\Main\\resources\\wR.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -416,14 +414,55 @@ public class Game {
         if (!clickableSquaresList.contains(clickedSquare)) {
             return null;
         }
-        boolean gameContinues = true;
         figureClicked = false;
+        boolean gameContinues = true;
         moveTo.setPair(clickedSquare);
         try {
             gameContinues = gameBoard.moveChessPiece(moveFrom, moveTo);
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
         }
+        fillSquareWithColor(moveTo, currentFigureLayer.createGraphics(), emptyColor);
+        ArrayList<Pair> changedSquaresList = gameBoard.getChangedSquareList();
+        for (Pair pair: changedSquaresList) {
+            fillSquare(pair);
+        }
+        gameSaveList.add(parseMoveToString());
+        clickableSquaresList = gameBoard.getMovableFiguresList();
+        if (!gameContinues || clickableSquaresList.isEmpty()) {
+            FigColor color = gameBoard.getTurn();
+            switch (color) {
+                case WHITE:
+                    return "Congratulations! Black wins!";
+                case BLACK:
+                    return "Congratulations! White wins!";
+                default:
+            }
+        }
+        clearLayer(currentKingUnderAttackLayer);
+        clearLayer(currentMoveDedicationLayer);
+        Pair kingPos = gameBoard.getKingCoordinatesIfHeUnderAttack();
+        if (null != kingPos) {
+            Graphics2D g = currentKingUnderAttackLayer.createGraphics();
+            g.setColor(kingUnderAttackColor);
+            g.fillOval(kingPos.getX() * 128, (7 - kingPos.getY()) * 128, 128, 128);
+            g.dispose();
+        }
+        return parseMoveToString();
+    }
+
+    /**
+     * Make bot moving.
+     * @return Bot move string or game end string.
+     */
+    public String botMove() {
+        boolean gameContinues = true;
+        try {
+            gameContinues = gameBoard.botMove();
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        }
+        parseStringToMove(gameBoard.getBotMoveString());
         fillSquareWithColor(moveTo, currentFigureLayer.createGraphics(), emptyColor);
         ArrayList<Pair> changedSquaresList = gameBoard.getChangedSquareList();
         for (Pair pair: changedSquaresList) {
@@ -495,6 +534,10 @@ public class Game {
         }
     }
 
+    /**
+     * Loads game from string array.
+     * @param strArray Strings parsed from XML save file.
+     */
     public void loadFromStringArray(ArrayList<String> strArray) {
         gameSaveList.clear();
         this.gameBoard = new Board();

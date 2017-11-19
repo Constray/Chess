@@ -28,9 +28,9 @@ public class XmlReport {
     /**
      * Creates XML file report.
      * @param filePath File path chosen in save file dialog.
-     * @param inputData Inputted string data.
+     * @param outputData Inputted string data.
      */
-    public static void saveXmlFile(String filePath, ArrayList<String> inputData) {
+    public static void saveXmlFile(String filePath, ArrayList<String> outputData) {
         DocumentBuilder builder;
         try {
             builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
@@ -41,12 +41,12 @@ public class XmlReport {
         Document doc = builder.newDocument();
         Node moveList = doc.createElement("movelist");
         doc.appendChild(moveList);
-        for (String line:inputData) {
+        for (int i = 0; i < outputData.toArray().length; i++) {
             Element move = doc.createElement("move");
+            move.setAttribute("number", Integer.toString(i + 1));
+            move.setAttribute("from", outputData.get(i).substring(0, 2));
+            move.setAttribute("to", outputData.get(i).substring(2));
             moveList.appendChild(move);
-            move.setAttribute("number", Integer.toString(inputData.indexOf(line) + 1));
-            move.setAttribute("from", line.substring(0, 2));
-            move.setAttribute("to", line.substring(2));
         }
         try {
             Transformer transformer = TransformerFactory.newInstance().newTransformer();
