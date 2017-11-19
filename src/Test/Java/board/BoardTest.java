@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class BoardTest {
 
     @Test
-    void testMoveChessPieceInvalidArgumentExceptionTest() {
+    void moveChessPieceInvalidArgumentExceptionTest() {
         assertThrows(IllegalArgumentException.class, new Executable() {
             @Override
             public void execute() throws Throwable {
@@ -22,7 +22,7 @@ class BoardTest {
     }
 
     @Test
-    void testGetKingCoordinatesIfHeUnderAttackNullTest() {
+    void getKingCoordinatesIfHeUnderAttackNullTest() {
         Board board = new Board();
         assertNull(board.getKingCoordinatesIfHeUnderAttack());
     }

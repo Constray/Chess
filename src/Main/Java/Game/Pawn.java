@@ -26,7 +26,9 @@ public class Pawn extends Figure {
                     if (this.position.OnBoard(0, -1) && currBoard.getSquare(this.position.getX(), this.position.getY() - 1 ).currFig == null)
                         moveList.add(new Pair(this.position, 0, -1));
                     if (FirsStep && this.position.OnBoard(0, -2) && currBoard.getSquare(this.position.getX(), this.position.getY() - 2).currFig == null)
-                        moveList.add(new Pair(this.position, 0, -2));
+                        if (currBoard.getSquare(this.position.getX(), this.position.getY() - 1).currFig == null) {
+                            moveList.add(new Pair(this.position, 0, -2));
+                        }
                 }
                 if (rightDownDiag && vertMove && horMove) {
                     if(this.position.OnBoard(1, -1) && currBoard.getSquare(this.position.getX() + 1, this.position.getY() - 1).currFig != null && currBoard.getSquare(this.position.getX() + 1, this.position.getY() - 1).currFig.getFigColor() != this.figColor) {
@@ -46,7 +48,9 @@ public class Pawn extends Figure {
                     if(this.position.OnBoard(0, 1) && currBoard.getSquare(this.position.getX(), this.position.getY() + 1).currFig == null)
                         moveList.add(new Pair(this.position, 0, 1));
                     if(FirsStep && this.position.OnBoard(0, 2) && currBoard.getSquare(this.position.getX(), this.position.getY() + 2).currFig == null)
-                        moveList.add(new Pair(this.position, 0, 2));
+                        if (currBoard.getSquare(this.position.getX(), this.position.getY() + 1).currFig == null) {
+                            moveList.add(new Pair(this.position, 0, 2));
+                        }
                 }
                 if (leftDownDiag && vertMove && horMove) {
                     if (this.position.OnBoard(1, 1) && currBoard.getSquare(this.position.getX() + 1, this.position.getY() + 1).currFig != null && currBoard.getSquare(this.position.getX() + 1, this.position.getY() +1).currFig.getFigColor() != this.figColor) {

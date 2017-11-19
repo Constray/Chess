@@ -1,6 +1,7 @@
 package game;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 class Square {
     Figure currFig;
@@ -54,6 +55,17 @@ public class Board {
     private ArrayList<Figure> blackFigList = new ArrayList<>();
     //Список возможных действий, если король находиться под шахом
     private ArrayList<Pair> saveMoveList = new ArrayList<>();
+
+    public String getBotMoveString() {
+        return botMoveString;
+    }
+
+    private String botMoveString = null;
+
+    private Pair botFromMove = new Pair(0,0);
+    private Pair botToMove = new Pair(0,0);
+
+    private Random randomMove = new Random();
 
     private ArrayList<Pair> changedSquareList = new ArrayList<>();
 
@@ -300,6 +312,15 @@ public class Board {
                 }
         }
         return true;
+    }
+
+    boolean botMove() {
+        ArrayList<Pair> fromList = getMovableFiguresList();
+        botFromMove.setPair(fromList.get(randomMove.nextInt(fromList.size())));
+        ArrayList<Pair> toList = boardSquares[botFromMove.getX()][botFromMove.getY()].currFig.moveList;
+        botToMove.setPair(toList.get(randomMove.nextInt(toList.size())));
+        botMoveString = botFromMove.toString() + botToMove.toString();
+        return moveChessPiece(botFromMove, botToMove);
     }
 
     /**

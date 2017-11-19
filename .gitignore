@@ -5,6 +5,14 @@ out
 *.svg
 *.png
 workspace.xml
+itext7-7.0.2
+slf4j-1.7.25
+Documentation
+chess.log
+HTMLReport.html
+PDFReport.pdf
+*.txt
+*.xml
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
