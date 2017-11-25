@@ -509,7 +509,7 @@ class MainFrame extends javax.swing.JFrame {
                         "Black"};
                 int m = JOptionPane.showOptionDialog(this,"Do you want to play as white or black?",
                         "Choose your side.", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
-                if (m == 1) {
+                if (m != mainGame.getGameSaveList().size() % 2) {
                     String moveString = mainGame.botMove();
                     movesTextArea.append(moveString + "\n");
                     refreshImage();
@@ -561,7 +561,7 @@ class MainFrame extends javax.swing.JFrame {
                     "Black"};
             int m = JOptionPane.showOptionDialog(this,"Do you want to play as white or black?",
                     "Choose your side.", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
-            if (m == 1) {
+            if (m != mainGame.getGameSaveList().size() % 2) {
                 String moveString = mainGame.botMove();
                 movesTextArea.append(moveString + "\n");
                 refreshImage();

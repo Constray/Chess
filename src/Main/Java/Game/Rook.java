@@ -76,17 +76,17 @@ class Rook extends Figure {
         if (kingPos.getX() > this.position.getX())
             for (int i = this.position.getX() + 1; i < kingPos.getX(); i++)
                 A.add(new Pair(i,this.position.getY()));
-        //Если король слева
+            //Если король слева
         else if (kingPos.getX() < this.position.getX())
-            for (int i = kingPos.getX() - 1; i > this.position.getX(); i--)
+            for (int i = kingPos.getX() + 1; i < this.position.getX(); i++)
                 A.add(new Pair(i,this.position.getY()));
-        //Если король сверху
+            //Если король сверху
         else if (kingPos.getY() > this.position.getY())
             for (int i = this.position.getY() + 1; i < kingPos.getY(); i++)
                 A.add(new Pair(this.position.getX(),i));
-        //Если король снизу
+            //Если король снизу
         else if (kingPos.getY() < this.position.getY())
-            for (int i = kingPos.getY() - 1; i > position.getY(); i++)
+            for (int i = kingPos.getY() + 1; i < this.position.getY(); i++)
                 A.add(new Pair(this.position.getX(),i));
         return A;
     }
